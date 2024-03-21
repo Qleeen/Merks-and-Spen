@@ -1,6 +1,7 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, Label
-from app_admin import AppAdmin  # Importamos la clase AppAdmin desde app_admin.py
+from tkinter import ttk
+from tkinter import messagebox, Label
+import datetime
 
 # Simulación de la base de datos
 usuarios = {1: "Usuario 1", 2: "Usuario 2", 3: "Usuario 3"}
@@ -41,9 +42,6 @@ class AppAlmacen(tk.Tk):
         self.button_enviar = ttk.Button(self.frame, text="Enviar Solicitud", command=self.enviar_solicitud)
         self.button_enviar.grid(row=3, column=1, padx=5, pady=5)
 
-        self.button_admin = ttk.Button(self.frame, text="Perfil Admin", command=self.abrir_admin)
-        self.button_admin.grid(row=4, columnspan=2, padx=5, pady=5)
-
         self.lista_solicitudes = ttk.Treeview(self, columns=("Fecha", "Usuario", "Producto", "Cantidad", "Estado"), show="headings")
         self.lista_solicitudes.heading("Fecha", text="Fecha")
         self.lista_solicitudes.heading("Usuario", text="Usuario")
@@ -76,10 +74,6 @@ class AppAlmacen(tk.Tk):
         self.lista_solicitudes.delete(*self.lista_solicitudes.get_children())
         for solicitud in solicitudes:
             self.lista_solicitudes.insert("", "end", values=(solicitud["Fecha"], solicitud["Usuario"], solicitud["Producto"], solicitud["Cantidad"], solicitud["Estado"]))
-
-    def abrir_admin(self):
-        app_admin = AppAdmin(solicitudes)
-        app_admin.mainloop()
 
 if __name__ == "__main__":
     app = AppAlmacen()
