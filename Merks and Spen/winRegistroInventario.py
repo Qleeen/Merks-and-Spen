@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import Label
+from claseRegistroInv import Inventario
 
 class InventarioApp:
     def __init__(self, master):
@@ -7,7 +8,7 @@ class InventarioApp:
         self.master.title("Registro de inventario")
         Label(root, text="Registro de nuevos articulos", font=("Helvetica", 15)).pack()
 
-        self.inventario = {}
+        self.inventario = Inventario()
 
         self.etiqueta_producto = tk.Label(master, text="Producto:")
         self.etiqueta_producto.pack(pady=5)
@@ -36,27 +37,18 @@ class InventarioApp:
     def registrar_entrada(self):
         producto = self.entry_producto.get()
         cantidad = int(self.entry_cantidad.get())
-
-        if producto in self.inventario:
-            self.inventario[producto] += cantidad
-        else:
-            self.inventario[producto] = cantidad
-
-        self.mostrar_resultado(f"Entrada registrada: {cantidad} unidades de {producto}")
+        mensaje = self.inventario.registrar_entrada(producto, cantidad)
+        self.mostrar_resultado(mensaje)
 
     def registrar_salida(self):
         producto = self.entry_producto.get()
         cantidad = int(self.entry_cantidad.get())
-
-        if producto in self.inventario and self.inventario[producto] >= cantidad:
-            self.inventario[producto] -= cantidad
-            self.mostrar_resultado(f"Salida registrada: {cantidad} unidades de {producto}")
-        else:
-            self.mostrar_resultado("Error: Cantidad insuficiente en inventario")
+        mensaje = self.inventario.registrar_salida(producto, cantidad)
+        self.mostrar_resultado(mensaje)
 
     def mostrar_inventario(self):
-        inventario_str = "\n".join([f"{producto}: {cantidad}" for producto, cantidad in self.inventario.items()])
-        self.mostrar_resultado(f"Inventario Actual:\n{inventario_str}")
+        mensaje = self.inventario.mostrar_inventario()
+        self.mostrar_resultado(mensaje)
 
     def mostrar_resultado(self, mensaje):
         self.resultado.config(text=mensaje)

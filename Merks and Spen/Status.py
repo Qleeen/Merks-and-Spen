@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, Label
+from claseStatus import AppAdmin
 
-class AppAdmin(tk.Tk):
+class AppAdminGUI(tk.Tk):
     def __init__(self, solicitudes):
         super().__init__()
 
@@ -9,7 +10,7 @@ class AppAdmin(tk.Tk):
         self.geometry("600x400")
         Label(text="Pedidos Solicitados", font=("Helvetica", 15)).pack()
 
-        self.solicitudes = solicitudes
+        self.app_admin = AppAdmin(solicitudes)
 
         self.frame = ttk.Frame(self)
         self.frame.pack(padx=20, pady=20)
@@ -22,29 +23,12 @@ class AppAdmin(tk.Tk):
         self.lista_solicitudes.heading("Estado", text="Estado")
         self.lista_solicitudes.pack(padx=20, pady=20)
 
-        self.button_notificar = ttk.Button(self.frame, text="Notificar Estado", command=self.notificar_estado)
+        self.button_notificar = ttk.Button(self.frame, text="Notificar Estado", command=self.app_admin.notificar_estado)
         self.button_notificar.pack(padx=5, pady=5)
 
-        self.actualizar_lista_solicitudes()
-
-    def actualizar_lista_solicitudes(self):
-        self.lista_solicitudes.delete(*self.lista_solicitudes.get_children())
-        for solicitud in self.solicitudes:
-            self.lista_solicitudes.insert("", "end", values=(solicitud["Fecha"], solicitud["Usuario"], solicitud["Producto"], solicitud["Cantidad"], solicitud["Estado"]))
-
-    def notificar_estado(self):
-        selected_item = self.lista_solicitudes.focus()
-        if selected_item:
-            index = int(selected_item.lstrip('I')) - 1
-            solicitud = self.solicitudes[index]
-            messagebox.showinfo("Notificación", f"Estado de la solicitud: {solicitud['Estado']}")
-        else:
-            messagebox.showerror("Error", "Por favor seleccione una solicitud.")
+        self.app_admin.actualizar_lista_solicitudes()
 
 if __name__ == "__main__":
     solicitudes = []  # Replace [] with your actual list of solicitudes
-    app_admin = AppAdmin(solicitudes)
-    app_admin.mainloop()
-    
-    
-
+    app_admin_gui = AppAdminGUI(solicitudes)
+    app_admin_gui.mainloop()

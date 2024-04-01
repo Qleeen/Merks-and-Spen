@@ -1,33 +1,12 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, Label
-
-class Usuario:
-    def __init__(self, id_usuario, username, nombre_completo, correo, id_rol, id_departamento):
-        self.id_usuario = id_usuario
-        self.username = username
-        self.nombre_completo = nombre_completo
-        self.correo = correo
-        self.id_rol = id_rol
-        self.id_departamento = id_departamento
-
-class Rol:
-    def __init__(self, id_rol, nombre, descripcion):
-        self.id_rol = id_rol
-        self.nombre = nombre
-        self.descripcion = descripcion
-
-class Departamento:
-    def __init__(self, id_departamento, nombre, descripcion):
-        self.id_departamento = id_departamento
-        self.nombre = nombre
-        self.descripcion = descripcion
+from tkinter import messagebox, ttk, Label
+from claseEditUsur import Usuario, Rol, Departamento
 
 class AdministradorUsuariosApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Editor de Usuarios")
         Label(root, text="Editor de Usuarios", font=("Helvetica", 15)).pack()
-
 
         # Datos de prueba para roles y departamentos (Falta definir base de datos)
         self.roles = [Rol(1, "Admin", "Administrador del sistema"), Rol(2, "Usuario", "Usuario normal")]
@@ -140,10 +119,8 @@ class AdministradorUsuariosApp:
         self.combobox_rol.set('')
         self.combobox_departamento.set('')
 
-
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("500x500")
     app = AdministradorUsuariosApp(root)
     root.mainloop()
-

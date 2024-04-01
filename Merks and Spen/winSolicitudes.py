@@ -1,14 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox, Label
-import datetime
-
-# Simulación de la base de datos
-usuarios = {1: "Usuario 1", 2: "Usuario 2", 3: "Usuario 3"}
-productos = {1: "Producto 1", 2: "Producto 2", 3: "Producto 3"}
-estados = {1: "Pendiente", 2: "Aprobada", 3: "Rechazada"}
-
-solicitudes = []
+from tkinter import ttk, messagebox, Label
+from claseSoli import usuarios, productos, estados, enviar_solicitud
 
 class AppAlmacen(tk.Tk):
     def __init__(self):
@@ -55,20 +47,10 @@ class AppAlmacen(tk.Tk):
         producto = self.combobox_producto.get()
         cantidad = self.entry_cantidad.get()
 
-        if not usuario or not producto or not cantidad:
+        if enviar_solicitud(usuario, producto, cantidad):
+            self.actualizar_lista_solicitudes()
+        else:
             messagebox.showerror("Error", "Por favor complete todos los campos.")
-            return
-
-        solicitud = {
-            "Fecha": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "Usuario": usuario,
-            "Producto": producto,
-            "Cantidad": cantidad,
-            "Estado": "Pendiente"
-        }
-
-        solicitudes.append(solicitud)
-        self.actualizar_lista_solicitudes()
 
     def actualizar_lista_solicitudes(self):
         self.lista_solicitudes.delete(*self.lista_solicitudes.get_children())
